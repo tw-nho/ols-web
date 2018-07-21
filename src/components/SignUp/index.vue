@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <el-col :span="8">&nbsp;</el-col>
-    <el-col :span="8">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-        <el-form-item prop="userName">
-          <label for="userName">用户名</label>
-          <el-input class="m-input-full-width" v-model="ruleForm.userName"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <label for="password">密码</label>
-          <el-input class="m-input-full-width" type="password" v-model="ruleForm.password"></el-input>
-        </el-form-item>
-        <el-form-item prop="password2">
-          <label for="password2">确认密码</label>
-          <el-input class="m-input-full-width" type="password" v-model="ruleForm.password2"></el-input>
-        </el-form-item>
-        <el-form-item class="m-center">
-          <el-button class="m-btn" type="primary" @click="submitForm('ruleForm')">注册</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-col :span="1">
-            <router-link to="/">返回</router-link>
-          </el-col>
-        </el-form-item>
-      </el-form>
-    </el-col>
-    <el-col :span="8">&nbsp;</el-col>
+  <div class="m-flexbox">
+    <div class="m-flexitem">
+      <el-col :span="24">
+        <router-link to="/"><i class="el-icon-arrow-left m-btn-back"></i></router-link>
+        <div class="m-form-wrapper">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form-item prop="userName">
+              <label for="userName">新用户账号</label>
+              <el-input class="m-input-full-width m-input" v-model="ruleForm.userName"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <label for="password">密码</label>
+              <el-input class="m-input-full-width m-input" type="password" v-model="ruleForm.password"></el-input>
+            </el-form-item>
+            <el-form-item prop="password2">
+              <label for="password2">确认密码</label>
+              <el-input class="m-input-full-width m-input" type="password" v-model="ruleForm.password2"></el-input>
+            </el-form-item>
+            <el-form-item class="m-center m-btn-wrapper">
+              <el-button class="m-btn" type="primary" @click="submitForm('ruleForm')">注册</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-col>
+    </div>
   </div>
 </template>
 
@@ -51,7 +49,6 @@
         rules: {
           userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'},
-            {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur']},
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'},
@@ -65,18 +62,71 @@
     },
     methods: {
       submitForm(formName) {
-        api.login()
+        this.$refs['ruleForm'].validate((flag, obj) => {
+          if (!flag) {
+            return
+          }
+          api.login()
+        })
       }
     }
   }
 </script>
 
 <style scoped>
-.m-center {
-  text-align: center;
+.m-flexbox {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  height: 100vh;
+  background: #666 url('../../assets/bg.png') no-repeat fixed center;
+}
+
+.m-flexitem {
+  max-width: 16rem; 
+  width: 100%; 
+  background-color: #fff;
+  padding: 2rem 4rem 7rem 4rem;
+}
+
+.m-btn-back {
+  font-size: 2rem;
+  color: #666;
+}
+
+label {
+  color: #999;
+}
+
+.m-form-wrapper {
+  margin-top: 4rem;
 }
 
 .m-input-full-width {
   width: 100%;
+}
+
+.m-input {
+  color: #d0d0d0;
+}
+
+.m-center {
+  text-align: center;
+}
+
+.m-middle {
+  vertical-align: middle;
+}
+
+.m-btn-wrapper {
+  margin-top: 3rem;
+}
+
+.m-btn {
+  background-color: #00acac;
+  border-radius: 0.7rem;
+  max-width: 6rem;
+  width: 100%;
+  padding: 0.5rem 0.8rem;
 }
 </style>
