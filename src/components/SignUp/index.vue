@@ -29,6 +29,7 @@
 
 <script>
   import api from '@/api'
+  import css from '../SignIn/index.css';
 
   export default {
     data() {
@@ -73,60 +74,6 @@
   }
 </script>
 
-<style scoped>
-.m-flexbox {
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  height: 100vh;
-  background: #666 url('../../assets/bg.png') no-repeat fixed center;
-}
+<style >
 
-.m-flexitem {
-  max-width: 16rem; 
-  width: 100%; 
-  background-color: #fff;
-  padding: 2rem 4rem 7rem 4rem;
-}
-
-.m-btn-back {
-  font-size: 2rem;
-  color: #666;
-}
-
-label {
-  color: #999;
-}
-
-.m-form-wrapper {
-  margin-top: 4rem;
-}
-
-.m-input-full-width {
-  width: 100%;
-}
-
-.m-input {
-  color: #d0d0d0;
-}
-
-.m-center {
-  text-align: center;
-}
-
-.m-middle {
-  vertical-align: middle;
-}
-
-.m-btn-wrapper {
-  margin-top: 3rem;
-}
-
-.m-btn {
-  background-color: #00acac;
-  border-radius: 0.7rem;
-  max-width: 6rem;
-  width: 100%;
-  padding: 0.5rem 0.8rem;
-}
 </style>
