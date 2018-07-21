@@ -71,7 +71,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .m-center {
   text-align: center;
 }
