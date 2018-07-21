@@ -1,74 +1,79 @@
 <template>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
-    <el-form-item label="用户名：" prop="userName">
-      <el-col :span="12">
-        <el-input v-model="ruleForm.userName"></el-input>
+  <div class="m-flexbox">
+    <div class="m-flexitem">
+      <el-col :span="24">
+        <router-link to="/"><i class="el-icon-arrow-left m-btn-back"></i></router-link>
+        <div class="m-form-wrapper">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form-item prop="userName">
+              <label for="userName">新用户账号</label>
+              <el-input class="m-input-full-width m-input" v-model="ruleForm.userName"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <label for="password">密码</label>
+              <el-input class="m-input-full-width m-input" type="password" v-model="ruleForm.password"></el-input>
+            </el-form-item>
+            <el-form-item prop="password2">
+              <label for="password2">确认密码</label>
+              <el-input class="m-input-full-width m-input" type="password" v-model="ruleForm.password2"></el-input>
+            </el-form-item>
+            <el-form-item class="m-center m-btn-wrapper">
+              <el-button class="m-btn" type="primary" @click="submitForm('ruleForm')">注册</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-col>
-    </el-form-item>
-    <el-form-item label="密码：" prop="password">
-      <el-col :span="12">
-        <el-input type="password" v-model="ruleForm.password"></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="确认密码：" prop="password2">
-      <el-col :span="12">
-        <el-input type="password" v-model="ruleForm.password2"></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="验证码：" prop="capture">
-      <el-col :span="12">
-        <el-input v-model="ruleForm.capture"></el-input>
-      </el-col>
-      <el-col :span="6">
-        <el-button>刷新</el-button>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="1">
-        <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
-      </el-col>
-    </el-form-item>
-    <el-form-item>
-      <el-col :span="1">
-        <router-link to="/">返回</router-link>
-      </el-col>
-    </el-form-item>
-  </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
   import api from '@/api'
+  import css from '../SignIn/index.css';
 
   export default {
     data() {
+      const validateRetypePasswordSame = (rule, value, callback) => {
+        if (value !== this.ruleForm.password) {
+          callback(new Error('Retyped password is different'))
+        } else {
+          callback()
+        }
+      }
+
       return {
         ruleForm: {
           userName: '',
           password: '',
           password2: '',
-          capture: '',
         },
         rules: {
           userName: [
             {required: true, message: '请输入用户名', trigger: 'blur'},
-            {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
           ],
           password: [
-            {required: true, message: '请输入密码', trigger: 'blur'}
+            {required: true, message: '请输入密码', trigger: 'blur'},
           ],
           password2: [
-            {required: true, message: '请确认密码', trigger: 'blur'}
+            {required: true, message: '请确认密码', trigger: 'blur'},
+            {validator: validateRetypePasswordSame, message: '两次输入的密码不一致', trigger: ['blur']},
           ],
-          capture: [
-            {required: true, message: '请输入验证码', trigger: 'blur'}
-          ]
         }
       }
     },
     methods: {
       submitForm(formName) {
-        api.login();
+        this.$refs['ruleForm'].validate((flag, obj) => {
+          if (!flag) {
+            return
+          }
+          api.login()
+        })
       }
     }
   }
 </script>
+
+<style >
+
+</style>
